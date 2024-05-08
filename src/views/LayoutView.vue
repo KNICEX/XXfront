@@ -8,6 +8,12 @@
         <div class="grow"/>
         <el-menu-item index="rank">排名</el-menu-item>
         <el-menu-item index="vote">投票</el-menu-item>
+        <el-sub-menu v-if="userInfoStore.userInfo.authority===AdminAuthority">
+          <template #title>管理</template>
+          <el-menu-item index="userAdmin">用户管理</el-menu-item>
+          <el-menu-item index="eventAdmin">活动管理</el-menu-item>
+          <el-menu-item index="voteAdmin">投票管理</el-menu-item>
+        </el-sub-menu>
         <el-menu-item index="user">{{userInfoStore.userInfo?.name}}</el-menu-item>
       </el-menu>
     </div>
@@ -22,12 +28,12 @@
 import {ref} from 'vue'
 import LogoView from "@/views/LogoView.vue"
 import  { useRouter, useRoute } from "vue-router"
-
 import { useUserInfoStore } from "@/stores/userInfo.js"
 const userInfoStore = useUserInfoStore()
 const router = useRouter()
 const route = useRoute()
 
+const AdminAuthority = '1'
 const activeName = ref(route.name)
 
 const handleSelect = (index) => {

@@ -31,6 +31,22 @@ const router = createRouter({
                     component: () => import('@/views/RankView.vue')
                 },
                 {
+                    path:'/admin/vote',
+                    name:'voteAdmin',
+                    component:()=>import('@/views/VoteAdmin.vue')
+                },
+                {
+                    path:'/admin/event',
+                    name:'eventAdmin',
+                    component:()=>import('@/views/EventAdmin.vue')
+                },
+                {
+                    path:'/admin/user',
+                    name:'userAdmin',
+                    component:()=>import('@/views/UserAdmin.vue')
+                },
+
+                {
                     path: '/user',
                     name: 'user',
                     component: () => import('@/views/UserView.vue')

@@ -1,6 +1,10 @@
 <template>
-  <div class="wrap p-2 bg-white rounded-xl mt-5 pt-5 h-full">
-    <el-table :data="voteEventList" height="100%" size="large" @expand-change="handleEventChange">
+  <div class="wrap p-2 bg-white rounded-xl mt-5 pt-5 pb-5 h-full">
+
+    <div class="header">
+      <h1>投票</h1>
+    </div>
+    <el-table :data="voteEventList" height="96%" size="large" @expand-change="handleEventChange">
       <el-table-column prop="name" label="活动名称"></el-table-column>
       <el-table-column prop="startTime" label="开始时间"></el-table-column>
       <el-table-column prop="endTime" label="结束时间"></el-table-column>
@@ -26,7 +30,8 @@
 </template>
 <script setup>
 import {reactive, ref} from 'vue'
-import { getVoteList, vote } from "@/api/vote.js"
+import {  vote } from "@/api/vote.js"
+import { getEventList } from "@/api/event.js"
 import { getRankListByEvent } from "@/api/rank.js"
 import { useUserInfoStore } from "@/stores/userInfo.js"
 import Message from "@/utils/message.js"
@@ -34,7 +39,7 @@ import {onBeforeMount} from "vue"
 const voteEventList = ref([])
 const userInfoStore = useUserInfoStore()
 onBeforeMount(async () => {
-  let res = await getVoteList()
+  let res = await getEventList()
   res.forEach(item => {
     const startTime = new Date(item.startTime)
     const endTime = new Date(item.endTime)
