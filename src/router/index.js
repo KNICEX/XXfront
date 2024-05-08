@@ -14,11 +14,28 @@ const router = createRouter({
         {
             path: '/',
             name: 'layout',
+            redirect: '/rank',
             component: () => import('@/views/LayoutView.vue'),
             meta: {
                 needLogin: true
             },
-            children: []
+            children: [
+                {
+                    path: '/vote',
+                    name: 'vote',
+                    component: () => import('@/views/VoteView.vue')
+                },
+                {
+                    path: '/rank',
+                    name: 'rank',
+                    component: () => import('@/views/RankView.vue')
+                },
+                {
+                    path: '/user',
+                    name: 'user',
+                    component: () => import('@/views/UserView.vue')
+                }
+            ]
         },
 
         {

@@ -23,7 +23,7 @@ instance.interceptors.request.use((config) => {
 })
 
 const SuccessCode = 0
-const NeedLoginCode = 1
+const NeedLoginCode = 3
 
 
 instance.interceptors.response.use((response) => {
@@ -69,6 +69,22 @@ instance.interceptors.response.use((response) => {
 
 })
 
+const toForm = (data) => {
+    if (data === undefined || data === null) {
+        return data
+    }
+
+    if (data instanceof FormData) {
+        return data
+    }
+
+    const formData = new FormData()
+    for (const key in data) {
+        formData.append(key, data[key])
+    }
+    return formData
+}
+
 const request = (config) => {
     const { url, params, data, method, showLoading = true, checkLogin = true, errorCallback, showError = true, loadingConfig = {
         fullScreen: true,
@@ -82,7 +98,7 @@ const request = (config) => {
     return instance({
         ...config,
         url,
-        data,
+        data: toForm(data),
         params,
         method,
         showLoading,

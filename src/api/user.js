@@ -9,7 +9,7 @@ export const login  = (data) => {
 }
 export const register  = (data) => {
     return request({
-        url: '/register',
+        url: '/user/register',
         method: 'post',
         data
     })

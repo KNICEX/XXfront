@@ -155,7 +155,16 @@ const registerRules = reactive({
   ],
   phoneNumber: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
-    { min: 11, max: 11, message: '请输入正确的手机号', trigger: 'blur' }
+    { validator: (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入手机号'))
+        } else if (!/^1[3456789]\d{9}$/.test(value)) {
+          callback(new Error('请输入正确的手机号'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur', }
   ],
   address: [
     { required: true, message: '请输入地址', trigger: 'blur' },
@@ -167,9 +176,8 @@ const login = (form) => {
   loginFormRef.value.validate(async (valid) => {
     if (valid) {
       userInfoStore.userInfo = await loginReq(form)
-      router.push(router.query.redirect || '/')
+      router.push(router.query?.redirect || '/')
       Message.success('登录成功')
-      await router.push('/')
     } else {
       return false
     }
@@ -182,7 +190,9 @@ const register = (form) => {
       Message.success('注册成功')
       loginForm.value.userName = form.userName
       loginForm.value.password = form.password
-      await router.push({name: 'login'})
+      activeName.value = 'login'
+      await router.replace({name: 'login'})
+      return true
     } else {
       return false
     }
