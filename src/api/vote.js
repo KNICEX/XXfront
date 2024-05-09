@@ -8,10 +8,3 @@ export const vote = (data) => {
     })
 }
 
-export const getAllVotes = (params) => {
-    return request({
-        url: '/vote/all',
-        method: 'get',
-        params
-    })
-}

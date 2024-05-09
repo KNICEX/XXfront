@@ -16,24 +16,50 @@
       </el-table-column>
       <el-table-column label="操作" width="100px">
         <template #default="{row}">
-          <el-button type="danger" @click="banUser(row.id)" v-if="row.authority !== AdminAuthority">封禁</el-button>
+          <el-button type="danger" @click="banUser(row.id)" v-if="canBaned(row.authority)">封禁</el-button>
+          <el-button type="warning" @click="unBanUser(row.id)" v-if="canUnBaned(row.authority)">解封</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 <script setup>
-import { getAllUser } from "@/api/admin.js"
+import { getAllUser, banUser as banUserReq, unbanUser as unbanUserReq } from "@/api/admin.js"
+import Message from "@/utils/message.js"
 import {onBeforeMount} from "vue"
 import { ref } from 'vue'
 const userList = ref([])
 const AdminAuthority = '1'
-onBeforeMount(async () => {
+const NormalAuthority = '0'
+const BanedAuthority = '2'
+const canBaned = (id) => {
+  return id === NormalAuthority
+}
+const canUnBaned = (id) => {
+  return id === BanedAuthority
+}
+const loadUserList = async () => {
   userList.value = await getAllUser()
+}
+onBeforeMount(async () => {
+  await loadUserList()
 })
 
 const banUser = async (userId) => {
-  console.log(userId)
+  await banUserReq({
+    userId
+  })
+  Message.success('封禁成功')
+  await loadUserList()
+}
+
+const unBanUser = async (userId) => {
+  await unbanUserReq({
+    userId,
+    ban: false
+  })
+  Message.success('解封成功')
+  await loadUserList()
 }
 </script>
 <style scoped lang="scss">

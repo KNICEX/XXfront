@@ -1,14 +1,20 @@
 <template>
   <div class="wrap p-2 bg-white rounded-xl mt-5 pt-5 pb-5 h-full">
 
-    <div class="header">
-      <h1>投票</h1>
+    <div class="header flex items-center">
+      <h1 class="mr-5">投票</h1>
+      <h4>剩余票数：{{userInfoStore.userInfo.point}}</h4>
     </div>
     <el-table :data="voteEventList" height="96%" size="large" @expand-change="handleEventChange">
       <el-table-column prop="name" label="活动名称"></el-table-column>
-      <el-table-column prop="startTime" label="开始时间"></el-table-column>
-      <el-table-column prop="endTime" label="结束时间"></el-table-column>
-      <el-table-column prop="status" label="状态"></el-table-column>
+      <el-table-column sortable prop="startTime" label="开始时间"></el-table-column>
+      <el-table-column sortable prop="endTime" label="结束时间"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template #default="{row}">
+          <el-tag v-if="row.status === '进行中'" type="success">进行中</el-tag>
+          <el-tag v-else type="info">已结束</el-tag>
+        </template>
+      </el-table-column>
 
       <el-table-column type="expand">
         <template #default="{row:eventRow}">
