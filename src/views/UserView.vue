@@ -11,8 +11,6 @@
         {{userInfoStore.userInfo.address}}
       </el-descriptions-item>
     </el-descriptions>
-
-
   </div>
 </template>
 <script setup>

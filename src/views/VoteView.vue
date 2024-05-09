@@ -74,6 +74,7 @@ const handleVote = async (athleteId, eventId) => {
   })
   console.log(userInfoStore.userInfo)
   Message.success('投票成功')
+  userInfoStore.userInfo.point -= 1
   loadEventRank(eventId)
 
 }
